@@ -6,10 +6,10 @@
  * 		javac -cp ".;IronBoxREST.jar" IronBoxUploadFileCmdLine.java
  *
  * 	Usage:
- *		java IronBoxUploadFileCmdLine <file_path_to_upload>
+ *		java IronBoxUploadFileCmdLine <containerID> <email> <password> <file_path_to_upload>
  *
  * 	Note: IronBox secure containers use AES 256-bit 
- * 	encryption keys, therefore you will neeed to install
+ * 	encryption keys, therefore you will need to install
  * 	the Java Cryptography Extension (JCE) Unlimited 
  * 	Strength Jurisdiction Policy Files for your Java runtime
  * 	version. By default, JDK and JRE only allows up to 
@@ -24,6 +24,12 @@
  *	Written by: Kevin Lam, kevinlam@goironbox.com
  *	Website: www.goironbox.com
  *
+ *	Change History:
+ *	===============
+ *	05/02/14	- Initial release
+ *
+ *	05/15/14	- Update so users can pass creds via command line
+ *
  */
 import com.goironbox.client.*;
 import java.io.*;
@@ -33,22 +39,25 @@ public class IronBoxUploadFileCmdLine {
 	private static ApiVersion API_VERSION = ApiVersion.LATEST;	
 	private static boolean verifySSLCert = true;
 	private static boolean verbose = true;
-	
-	// Replace credentials with your own IronBox credentials, and
-	// the target container ID you are trying to upload to
+
+	// These will be picked up as command lines parameters	
 	private static String email = "username@email.com";
 	private static String password = "<Your IronBox password>";
 	private static long containerID = 123456;
+	private static String filePath = "<file_path_of_file_to_upload>";
 
 	public static void main(String args[]) throws Exception {
 	
 		try {
 
 			// Check that a file was specified
-			if (args.length < 1) {
-				throw new Exception("Usage: IronBoxUploadFileCmdLine <file_to_upload>");
+			if (args.length < 4) {
+				throw new Exception("Usage: IronBoxUploadFileCmdLine <containerID> <email> <password> <file_path_to_upload>");
 			}
-			String filePath = args[0];
+			containerID = Long.valueOf(args[0]).longValue();
+			email = args[1];
+			password = args[2];
+			filePath = args[3];
 
 			// Create a new IronBox client object and set
 			// any optional parameters
@@ -56,7 +65,7 @@ public class IronBoxUploadFileCmdLine {
             	email, password, EntityType.EMAIL_ADDRESS,
             	API_VERSION, ContentFormat.JSON,
             	verbose, verifySSLCert
-			);
+        	);
 
 			// Optional, you can check to see that the API server is
 			// responding before execution
