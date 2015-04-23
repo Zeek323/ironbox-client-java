@@ -1,5 +1,5 @@
 /**
- *	Demonstrates how to upload a file to an IronBox secure
+ *	Demonstrates how to download files in an IronBox secure
  *	package usinig command line parameters:
  *
  * 	Compile:
