@@ -526,7 +526,7 @@ class RESTHandler {
 
     protected boolean removeEntityContainerBlob(Long containerID, String blobIDName) throws Exception {
         try {
-            URL url = new URL(apiUrl.toString() + "RemoveEntityContainer");
+            URL url = new URL(apiUrl.toString() + "RemoveEntityContainerBlob");
 
             Map<String, String> postData = new HashMap<>();
             postData.put("Entity", entity);
